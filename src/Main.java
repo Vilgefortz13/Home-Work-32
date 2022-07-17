@@ -25,50 +25,70 @@ public class Main {
                 default -> System.out.println();
             }
         }
-        System.out.print("""
-                Choose an action:
-                  add money - 1;
-                  buy water - 2;
-                  buy coffee - 3;
-                  buy milk - 4;
-                  buy tea - 5;
-                >\040""");
-        int action = getNumber(1, 5);
         int deposit = 0;
+        while (true) {
+            System.out.println("\nYou deposited " + deposit + " money\n");
+            System.out.print("""
+                    Choose an action:
+                      add money - 1;
+                      buy water - 2;
+                      buy coffee - 3;
+                      buy milk - 4;
+                      buy tea - 5;
+                      get away from machine - 6
+                    >\040""");
+            int action = getNumber(1, 6);
 
-        switch (action) {
-            case 1 -> {
-                System.out.print("How much money do you want to add: ");
-                int money = getNumber();
-                deposit += money;
+            if (action == 6) {
+                break;
             }
-            case 2 -> {
-                for (VendingMachine v : vMachine) {
-                    if (v.getPrice() >= deposit) {
+
+            switch (action) {
+                case 1 -> {
+                    System.out.print("How much money do you want to add: ");
+                    int money = getNumber();
+                    deposit += money;
+                }
+                case 2 -> {
+                    if (vMachine[0].getPrice() <= deposit) {
                         drinks.remove(vMachine[0]);
+                        System.out.println("You bought water");
+                        deposit -= vMachine[0].getPrice();
+                    } else {
+                        System.out.println("Not enough money!");
                     }
                 }
-            }
-            case 3 -> {
-                for (VendingMachine v : vMachine) {
-                    if (v.getPrice() >= deposit) {
+                case 3 -> {
+                    if (vMachine[1].getPrice() <= deposit) {
                         drinks.remove(vMachine[1]);
+                        System.out.println("You bought coffee");
+                        deposit -= vMachine[1].getPrice();
+                    } else {
+                        System.out.println("Not enough money!");
                     }
                 }
-            }
-            case 4 -> {
-                for (VendingMachine v : vMachine) {
-                    if (v.getPrice() >= deposit) {
+                case 4 -> {
+                    if (vMachine[2].getPrice() <= deposit) {
                         drinks.remove(vMachine[2]);
+                        System.out.println("You bought milk");
+                        deposit -= vMachine[2].getPrice();
+                    } else {
+                        System.out.println("Not enough money!");
+                    }
+                }
+                case 5 -> {
+                    if (vMachine[3].getPrice() <= deposit) {
+                        drinks.remove(vMachine[3]);
+                        System.out.println("You bought tea");
+                        deposit -= vMachine[3].getPrice();
+                    } else {
+                        System.out.println("Not enough money!");
                     }
                 }
             }
-            case 5 -> {
-                for (VendingMachine v : vMachine) {
-                    if (v.getPrice() >= deposit) {
-                        drinks.remove(vMachine[3]);
-                    }
-                }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException ignored) {
             }
         }
     }
@@ -83,12 +103,12 @@ public class Main {
         int number;
         while (true) {
             try {
-                System.out.print("Enter the number: ");
                 number = new Scanner(System.in).nextInt();
                 while (number < 0) {
                     System.out.print("Invalid value! Enter the positive number: ");
                     number = new Scanner(System.in).nextInt();
                 }
+
                 return number;
             } catch (InputMismatchException e) {
                 System.out.print("Invalid value! Try again: ");
@@ -100,12 +120,12 @@ public class Main {
         int number;
         while (true) {
             try {
-                System.out.print("Enter the number: ");
                 number = new Scanner(System.in).nextInt();
                 while (number < startValue || number > endValue) {
                     System.out.printf("Invalid value! Enter from %d to %d: ", startValue, endValue);
                     number = new Scanner(System.in).nextInt();
                 }
+
                 return number;
             } catch (InputMismatchException e) {
                 System.out.print("Invalid value! Try again: ");
